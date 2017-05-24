@@ -27,7 +27,7 @@
     <bean id="propertyPlaceholderConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <!--提前加载配置文件,以免Spring无法使用@Value注入-->
-        <property name="order" value="2147483610"/>
+        <!--<property name="order" value="2147483610"/>-->
         <property name="ignoreResourceNotFound" value="true"/>
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
         <property name="propertiesArray">
