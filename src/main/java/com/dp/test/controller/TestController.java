@@ -2,6 +2,8 @@ package com.dp.test.controller;
 
 import com.dp.test.service.TestConfigFile;
 import com.dp.test.service.TestConfigOption;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +36,8 @@ public class TestController {
         @Value("${test.myage}")
         Integer age;
         */
+    Logger logger = LoggerFactory.getLogger(getClass());
+    
     @ResponseBody
     @RequestMapping("/test")
     public Map<String, Object> test() {
@@ -45,7 +49,8 @@ public class TestController {
         map.put("age", age);
         map.put("count", testConfigOption.getCount());
         map.put("value", myValue);
-        
+    
+        logger.debug("map :{}", map);
         return map;
     }
 }

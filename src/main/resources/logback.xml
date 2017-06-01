@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration scan="true"> <!-- 打印所有信息，logback内部信息 ,scan=true,配置文件修改后重新加载 -->
+
+
+	
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36}.[%method] [%file:%line]   -- %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 按照每天生成日志文件 -->
+	<appender name="DAYFILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--日志文件输出的文件名 -->
+			<FileNamePattern>${LOG_HOME}/log.%d{yyyy-MM-dd}.%i.log
+			</FileNamePattern>
+			<!--日志文件保留天数 -->
+			<MaxHistory>30</MaxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy
+		            class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+		        <!-- or whenever the file size reaches 10MB -->
+		        <maxFileSize>50MB</maxFileSize>
+		    </timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36}.[%method] [%file:%line]   -- %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 异步文件日志只能添加一个跟appender异步输出 -->
+	<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="DAYFILE" />
+		<includeCallerData>true</includeCallerData>
+	</appender>
+
+
+	<logger name="org.apache.zookeeper.ClientCnxn" level="INFO">
+		<appender-ref ref="ASYNC" />
+	</logger>
+	 
+	 
+	<root level="info">
+		 <appender-ref ref="STDOUT" />
+	</root>
+ 
+ 
+</configuration>
